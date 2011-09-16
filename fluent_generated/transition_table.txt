@@ -1,0 +1,41 @@
+//   +>>>>>>>>>>>(SetPost)>>>>>>>>>>>>>>>>>>+
+//   ^                                      v                            +>>(AddPostData)>>+
+//   ^                                      v                            ^                 v
+//[UZZState]>>>(SetGet)>>>[UGZState]     [UPZState]>>>(AddPostData)>>>[UPDState]<<<<<<<<<<<+
+//   ^                       ^              ^                            ^
+//   ^                       ^              ^                            ^
+//(SetUrl)                (SetUrl)       (SetUrl)                     (SetUrl)    
+//   ^                       ^              ^                            ^
+//   ^                       ^              ^                            ^
+//[ZZZState]>>>(SetGet)>>>[ZGZState]     [ZPZState]>>>(AddPostData)>>>[ZPDState]<<<<<<<<<<<<+
+//   v                                      ^                             v                 ^
+//   v                                      ^                             +>>(AddPostData)>>+
+//   +>>>>>>>>>>>(SetPost)>>>>>>>>>>>>>>>>>>+   
+//
+
+HEADER : transitions.h
+SOURCE : transitions.cpp
+
+DEFAULT_ACTION @ SetUrl(std::string url) @ core->SetUrl(url);
+DEFAULT_ACTION @ SetPost() @ core->SetPost();
+DEFAULT_ACTION @ SetGet() @ core->SetGet();
+DEFAULT_ACTION @ AddPostData(std::string key, std::string value) @ core->AddPostData(key,value);
+
+ZZZState UZZState SetUrl(std::string url)
+ZZZState ZPZState SetPost()
+ZZZState ZGZState SetGet()
+
+UZZState UGZState SetGet()
+UZZState UPZState SetPost()
+
+ZGZState UGZState SetUrl(std::string url)
+
+ZPZState UPZState SetUrl(std::string url)
+ZPZState ZPDState AddPostData(std::string key, std::string value)
+
+UPZState UPDState AddPostData(std::string key, std::string value)
+
+ZPDState ZPDState AddPostData(std::string key, std::string value)
+ZPDState UPDState SetUrl(std::string url)
+
+UPDState UPDState AddPostData(std::string key, std::string value)
